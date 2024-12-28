@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="web_app">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="google-signin-client_id" content="945213540459-3cjmrctb4fmnsvm3s7udo7rjc25ljf50.apps.googleusercontent.com">
+
+
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>web_app</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+  <script src="flutter_bootstrap.js" async></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js";
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js'
+    import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js'
+    const firebaseConfig = {
+      apiKey: "AIzaSyCo0obkVo_IdbCHTp5HseRD8zNStBXCjA0",
+      authDomain: "designstret.firebaseapp.com",
+      projectId: "designstret",
+      storageBucket: "designstret.firebasestorage.app",
+      messagingSenderId: "945213540459",
+      appId: "1:945213540459:web:80f6a7e0ca9dad2ec0092e",
+      measurementId: "G-5FKWK5V67N"
+    };
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const messaging = firebase.messaging();
+      // طلب إذن المستخدم لإظهار الإشعارات
+  messaging.requestPermission()
+    .then(() => {
+      return messaging.getToken();
+    })
+    .then((token) => {
+      console.log("FCM Token: ", token);
+      // يمكنك إرسال هذا الرمز إلى الخادم للاستخدام لاحقًا
+    })
+    .catch((err) => {
+      console.log("خطأ في الحصول على الإذن أو الرمز:", err);
+    });
+
+  // استقبال الإشعارات في الخلفية
+  messaging.onMessage((payload) => {
+    console.log('رسالة الإشعار:', payload);
+    // يمكنك عرض الإشعار هنا باستخدام Notification API
+  });
+
+  </script>
+  <!-- إضافة ملف Firebase Service Worker -->
+  <script src="firebase-messaging-sw.js"></script>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</body>
+</html>
